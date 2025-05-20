@@ -1,10 +1,17 @@
 .App {
   text-align: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .App-logo {
   height: 40vmin;
+  max-height: 150px;
   pointer-events: none;
+  margin: 0 auto;
+  display: block;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -22,10 +29,19 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 20px;
 }
 
 .App-link {
   color: #61dafb;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.App-link:hover,
+.App-link:focus {
+  color: #21a1f1;
+  text-decoration: underline;
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +51,16 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Additional button styling for consistency */
+.btn-primary {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #0056b3;
+  box-shadow: 0 0 8px rgba(0, 86, 179, 0.6);
+  outline: none;
 }
