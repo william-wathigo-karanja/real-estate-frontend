@@ -1,82 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Footer from '../components/Footer';
 
 function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`Thank you for your message, ${formData.name}! We'll get back to you soon.`);
-    setFormData({ name: '', email: '', phone: '', message: '' });
-  };
-
   return (
-    <div className="container my-4">
-      <h2 className="mb-3 text-center animated-heading">Contact Us</h2>
-      <p className="text-center">
+    <div className="container mt-5">
+      <h2 className="text-center mb-4">Contact Us</h2>
+      <p className="text-center mb-4">
         We’d love to hear from you. Fill out the form below and we’ll respond shortly.
       </p>
-
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="mb-3">
-          <label className="form-label">Full Name</label>
-          <input
-            type="text"
-            className="form-control"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+          <label htmlFor="fullName" className="form-label">Full Name</label>
+          <input type="text" className="form-control" id="fullName" required />
         </div>
-
         <div className="mb-3">
-          <label className="form-label">Email Address</label>
-          <input
-            type="email"
-            className="form-control"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
+          <label htmlFor="email" className="form-label">Email Address</label>
+          <input type="email" className="form-control" id="email" required />
         </div>
-
         <div className="mb-3">
-          <label className="form-label">Phone Number</label>
-          <input
-            type="tel"
-            className="form-control"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-          />
+          <label htmlFor="phone" className="form-label">Phone Number</label>
+          <input type="tel" className="form-control" id="phone" required />
         </div>
-
         <div className="mb-3">
-          <label className="form-label">Your Message</label>
-          <textarea
-            className="form-control"
-            name="message"
-            rows="4"
-            value={formData.message}
-            onChange={handleChange}
-            required
-          ></textarea>
+          <label htmlFor="message" className="form-label">Your Message</label>
+          <textarea className="form-control" id="message" rows="5" required></textarea>
         </div>
-
-        <button type="submit" className="btn btn-primary">
-          Send Message
-        </button>
+        <button type="submit" className="btn btn-primary">Send Message</button>
       </form>
+
+      {/* Footer added here */}
+      <Footer />
     </div>
   );
 }

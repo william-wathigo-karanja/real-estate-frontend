@@ -125,5 +125,28 @@ p {
   padding-left: 1rem;
 }
 
+/* Newsletter section styling */
+.newsletter-input {
+  min-width: 280px;
+  max-width: 400px;
+}
+
+/* Call-to-action footer banner */
+.call-to-action-banner {
+  background-image: linear-gradient(to right, #0d6efd, #6610f2);
+  color: white;
+  padding: 3rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.call-to-action-banner h4 {
+  font-size: 1.75rem;
+}
+
+.call-to-action-banner p {
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+}
+
 
 

@@ -1,66 +1,17 @@
-.App {
-  text-align: center;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.property-card {
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.App-logo {
-  height: 40vmin;
-  max-height: 150px;
-  pointer-events: none;
-  margin: 0 auto;
-  display: block;
+.property-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  padding: 20px;
-}
-
-.App-link {
-  color: #61dafb;
-  transition: color 0.3s ease;
-  text-decoration: none;
-}
-
-.App-link:hover,
-.App-link:focus {
-  color: #21a1f1;
-  text-decoration: underline;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Additional button styling for consistency */
-.btn-primary {
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.btn-primary:hover,
-.btn-primary:focus {
-  background-color: #0056b3;
-  box-shadow: 0 0 8px rgba(0, 86, 179, 0.6);
-  outline: none;
+.property-card img {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  object-fit: cover;
+  height: 200px;
+  width: 100%;
 }
