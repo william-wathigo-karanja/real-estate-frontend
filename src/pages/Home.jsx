@@ -1,73 +1,124 @@
 import React from 'react';
+import { Container, Row, Col, Button, Carousel } from 'react-bootstrap';
+import { Link } from 'react-router-dom'; // Added for navigation
 import './Home.css';
-import { Link } from 'react-router-dom';
-import Footer from '../components/Footer';
 
 const Home = () => {
   return (
-    <div>
+    <>
       {/* Hero Section */}
       <section className="hero-section">
-        <div className="container text-center hero-content">
-          <h1>Find Your Dream Home</h1>
-          <p>Explore the best properties across Kenya with Estate Finder.</p>
-          <div className="hero-buttons">
-            <Link to="/listings" className="btn primary-btn">
-              Browse Listings
-            </Link>
-            <Link to="/contact" className="btn secondary-btn">
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Properties */}
-      <section className="container my-5">
-        <h2 className="text-center mb-4">Featured Properties</h2>
-        <div className="row">
-          <div className="col-md-4 mb-4">
-            <div className="card property-card">
-              <img src="https://via.placeholder.com/300x200" className="card-img-top" alt="Property" />
-              <div className="card-body">
-                <h5 className="card-title">Modern Apartment in Nairobi</h5>
-                <p className="card-text text-success">KSh 8,000,000</p>
-                <p className="card-text">2-bedroom apartment with a great city view.</p>
-                <Link to="/property/1" className="btn btn-outline-primary btn-sm">View Details</Link>
-              </div>
+        <Container>
+          <div className="hero-content">
+            <h1>Find Your Dream Home in Kenya</h1>
+            <p>Browse top listings across Nairobi, Mombasa, Kisumu, and beyond.</p>
+            <div className="hero-buttons">
+              <Button className="primary-btn">Get Started</Button>
+              <Link to="/about">
+                <Button className="secondary-btn">Learn More</Button>
+              </Link>
             </div>
           </div>
-          {/* Add more property cards here if needed */}
-        </div>
+        </Container>
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="bg-light py-5">
-        <div className="container text-center">
-          <h2 className="mb-4">Why Choose Estate Finder?</h2>
-          <div className="row">
-            <div className="col-md-4">
-              <i className="bi bi-house-door-fill display-4 text-primary mb-3"></i>
+      <section className="py-5 bg-light">
+        <Container>
+          <h2 className="text-center mb-4">Why Choose Estate Finder</h2>
+          <Row className="text-center">
+            <Col md={4}>
+              <i className="bi bi-house-door-fill mb-2"></i>
               <h5>Verified Listings</h5>
-              <p>All properties are verified and up-to-date.</p>
-            </div>
-            <div className="col-md-4">
-              <i className="bi bi-people-fill display-4 text-primary mb-3"></i>
-              <h5>Trusted Agents</h5>
-              <p>Connect with experienced and licensed real estate agents.</p>
-            </div>
-            <div className="col-md-4">
-              <i className="bi bi-geo-alt-fill display-4 text-primary mb-3"></i>
+              <p>Only trustworthy properties from vetted agents and owners.</p>
+            </Col>
+            <Col md={4}>
+              <i className="bi bi-map-fill mb-2"></i>
               <h5>Nationwide Coverage</h5>
-              <p>We have listings across all major towns in Kenya.</p>
-            </div>
-          </div>
-        </div>
+              <p>From Nairobi to Mombasa, find homes in every major town.</p>
+            </Col>
+            <Col md={4}>
+              <i className="bi bi-people-fill mb-2"></i>
+              <h5>Expert Support</h5>
+              <p>Our team is here to guide you at every step of the journey.</p>
+            </Col>
+          </Row>
+        </Container>
       </section>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+      {/* Testimonials Section */}
+      <section className="testimonials-section py-5 bg-light">
+        <Container>
+          <h2 className="text-center mb-4">What Our Clients Say</h2>
+          <Carousel indicators={false}>
+            <Carousel.Item>
+              <div className="d-flex flex-column align-items-center text-center">
+                <img
+                  src="https://randomuser.me/api/portraits/women/1.jpg"
+                  alt="Jane W."
+                  className="rounded-circle mb-3"
+                  style={{ width: "80px", height: "80px" }}
+                />
+                <p className="fst-italic">"Estate Finder helped me find my dream home effortlessly!"</p>
+                <strong>Jane W.</strong>
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              <div className="d-flex flex-column align-items-center text-center">
+                <img
+                  src="https://randomuser.me/api/portraits/men/2.jpg"
+                  alt="David K."
+                  className="rounded-circle mb-3"
+                  style={{ width: "80px", height: "80px" }}
+                />
+                <p className="fst-italic">"A fantastic platform with lots of great listings."</p>
+                <strong>David K.</strong>
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              <div className="d-flex flex-column align-items-center text-center">
+                <img
+                  src="https://randomuser.me/api/portraits/women/3.jpg"
+                  alt="Susan M."
+                  className="rounded-circle mb-3"
+                  style={{ width: "80px", height: "80px" }}
+                />
+                <p className="fst-italic">"Customer service was amazing and super helpful."</p>
+                <strong>Susan M.</strong>
+              </div>
+            </Carousel.Item>
+          </Carousel>
+        </Container>
+      </section>
+
+      {/* Footer Section */}
+      <footer className="footer-section bg-dark text-white py-4 mt-5">
+        <Container>
+          <Row>
+            <Col md={4}>
+              <h5>Estate Finder</h5>
+              <p>Your trusted property partner across Kenya.</p>
+            </Col>
+            <Col md={4}>
+              <h5>Quick Links</h5>
+              <ul className="list-unstyled">
+                <li><a href="/" className="text-white">Home</a></li>
+                <li><a href="/listings" className="text-white">Listings</a></li>
+                <li><a href="/contact" className="text-white">Contact</a></li>
+              </ul>
+            </Col>
+            <Col md={4}>
+              <h5>Contact Us</h5>
+              <p>Email: support@estatefinder.co.ke</p>
+              <p>Phone: +254 712 345 678</p>
+              <p>Location: Nairobi, Kenya</p>
+            </Col>
+          </Row>
+          <hr className="border-light" />
+          <p className="text-center mb-0">© {new Date().getFullYear()} Estate Finder. All rights reserved.</p>
+        </Container>
+      </footer>
+    </>
   );
 };
 

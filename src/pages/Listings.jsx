@@ -1,57 +1,61 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
+// Full listings dataset
 const listingsData = [
   {
     id: 1,
-    title: 'Modern Family Home',
-    price: 25000000,
+    title: 'Modern Apartment in Nairobi',
+    price: 200000,
     location: 'Nairobi',
-    type: 'House',
-    image: 'https://images.unsplash.com/photo-1600585154356-596af9009e81?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 2,
-    title: 'Luxury Apartment',
-    price: 15000000,
-    location: 'Westlands',
     type: 'Apartment',
     image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80',
   },
   {
-    id: 3,
-    title: 'Beachside Villa',
-    price: 40000000,
+    id: 2,
+    title: 'Beach House in Mombasa',
+    price: 450000,
     location: 'Mombasa',
     type: 'House',
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
   },
   {
-    id: 4,
-    title: 'Townhouse in Kisumu',
-    price: 18000000,
+    id: 3,
+    title: 'Bungalow in Kisumu',
+    price: 300000,
     location: 'Kisumu',
-    type: 'Townhouse',
-    image: 'https://images.unsplash.com/photo-1560185127-6a8c6c21c8a3?auto=format&fit=crop&w=800&q=80',
+    type: 'House',
+    image: 'https://images.unsplash.com/photo-1560448071-1a53a7c7b20f?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 4,
+    title: 'Penthouse in Westlands',
+    price: 600000,
+    location: 'Nairobi',
+    type: 'Apartment',
+    image: 'https://images.unsplash.com/photo-1598928506311-d0cbe7bbf46c?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 5,
-    title: 'Affordable Studio',
-    price: 6500000,
-    location: 'Nairobi',
-    type: 'Studio',
-    image: 'https://images.unsplash.com/photo-1613977257363-707ba934822a?auto=format&fit=crop&w=800&q=80',
+    title: 'Luxury Villa in Diani',
+    price: 750000,
+    location: 'Mombasa',
+    type: 'Villa',
+    image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 6,
-    title: 'Suburban Bungalow',
-    price: 13000000,
-    location: 'Thika',
-    type: 'Bungalow',
-    image: 'https://images.unsplash.com/photo-1600585154601-1b4ed3c0dbd4?auto=format&fit=crop&w=800&q=80',
+    title: 'Studio Apartment in Eldoret',
+    price: 150000,
+    location: 'Eldoret',
+    type: 'Apartment',
+    image: 'https://images.unsplash.com/photo-1615873968403-89e9db00fa0f?auto=format&fit=crop&w=800&q=80',
   },
+  // Add more listings as needed
 ];
+
+const ITEMS_PER_PAGE = 3;
 
 const Listings = () => {
   const [filters, setFilters] = useState({
@@ -59,15 +63,25 @@ const Listings = () => {
     location: '',
     type: '',
   });
-
   const [panelOpen, setPanelOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const listingsPerPage = 3;
+  const [activeCategory, setActiveCategory] = useState('');
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
-    setCurrentPage(1); // Reset to first page when filter changes
+    setCurrentPage(1);
+  };
+
+  const handleCategoryClick = (type) => {
+    setFilters((prev) => ({ ...prev, type }));
+    setActiveCategory(type);
+    setCurrentPage(1);
+  };
+
+  const clearCategory = () => {
+    setFilters((prev) => ({ ...prev, type: '' }));
+    setActiveCategory('');
   };
 
   const filteredProperties = listingsData.filter((property) => {
@@ -75,21 +89,16 @@ const Listings = () => {
       filters.price === '' || property.price <= parseInt(filters.price);
     const matchesLocation =
       filters.location === '' ||
-      property.location.toLowerCase().includes(filters.location.toLowerCase());
+      property.location.toLowerCase() === filters.location.toLowerCase();
     const matchesType =
       filters.type === '' ||
       property.type.toLowerCase() === filters.type.toLowerCase();
     return matchesPrice && matchesLocation && matchesType;
   });
 
-  // Pagination logic
-  const indexOfLast = currentPage * listingsPerPage;
-  const indexOfFirst = indexOfLast - listingsPerPage;
-  const currentListings = filteredProperties.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(filteredProperties.length / listingsPerPage);
-
-  const goToNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  const goToPrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const displayedProperties = filteredProperties.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
     <div className="App">
@@ -99,51 +108,65 @@ const Listings = () => {
         {panelOpen ? 'Hide Filters' : 'Show Filters'}
       </button>
 
-      {panelOpen && (
-        <div className="filter-panel mb-3">
-          <div className="row g-3">
-            <div className="col-md-4">
-              <input
-                type="number"
-                name="price"
-                placeholder="Max Price"
-                className="form-control"
-                value={filters.price}
-                onChange={handleFilterChange}
-              />
-            </div>
-            <div className="col-md-4">
-              <input
-                type="text"
-                name="location"
-                placeholder="Location (e.g. Nairobi)"
-                className="form-control"
-                value={filters.location}
-                onChange={handleFilterChange}
-              />
-            </div>
-            <div className="col-md-4">
-              <select
-                name="type"
-                className="form-select"
-                value={filters.type}
-                onChange={handleFilterChange}
-              >
-                <option value="">All Types</option>
-                <option value="Apartment">Apartment</option>
-                <option value="House">House</option>
-                <option value="Townhouse">Townhouse</option>
-                <option value="Studio">Studio</option>
-                <option value="Bungalow">Bungalow</option>
-              </select>
-            </div>
+      <div className={`filter-panel ${panelOpen ? 'open' : ''}`}>
+        <div className="row g-3">
+          <div className="col-md-4">
+            <input
+              type="number"
+              name="price"
+              placeholder="Max Price"
+              className="form-control"
+              value={filters.price}
+              onChange={handleFilterChange}
+            />
+          </div>
+          <div className="col-md-4">
+            <input
+              type="text"
+              name="location"
+              placeholder="Location (e.g. Nairobi)"
+              className="form-control"
+              value={filters.location}
+              onChange={handleFilterChange}
+            />
+          </div>
+          <div className="col-md-4">
+            <select
+              name="type"
+              className="form-select"
+              value={filters.type}
+              onChange={handleFilterChange}
+            >
+              <option value="">All Types</option>
+              <option value="Apartment">Apartment</option>
+              <option value="House">House</option>
+              <option value="Villa">Villa</option>
+            </select>
           </div>
         </div>
-      )}
+      </div>
+
+      {/* Category tags */}
+      <div className="my-3">
+        {['Apartment', 'House', 'Villa'].map((cat) => (
+          <button
+            key={cat}
+            className={`btn btn-outline-secondary btn-sm me-2 ${activeCategory === cat ? 'active' : ''}`}
+            onClick={() => handleCategoryClick(cat)}
+          >
+            {cat}
+          </button>
+        ))}
+        {activeCategory && (
+          <button className="btn btn-link text-danger btn-sm" onClick={clearCategory}>
+            Clear
+          </button>
+        )}
+      </div>
 
       <div className="row mt-4">
-        {currentListings.length > 0 ? (
-          currentListings.map((property) => (
+        {displayedProperties.length > 0 ? (
+          displayedProperties.map((property) => (
             <div className="col-md-4 mb-4" key={property.id}>
               <div className="card property-card shadow-sm h-100">
                 <img src={property.image} className="card-img-top" alt={property.title} />
@@ -168,25 +191,23 @@ const Listings = () => {
         )}
       </div>
 
-      {filteredProperties.length > listingsPerPage && (
-        <div className="d-flex justify-content-center mt-4">
-          <button
-            className="btn btn-outline-secondary me-2"
-            onClick={goToPrevPage}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </button>
-          <span className="align-self-center">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            className="btn btn-outline-secondary ms-2"
-            onClick={goToNextPage}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
+      {/* Pagination controls */}
+      {totalPages > 1 && (
+        <div className="mt-4">
+          <nav>
+            <ul className="pagination justify-content-center">
+              {Array.from({ length: totalPages }).map((_, idx) => (
+                <li
+                  key={idx}
+                  className={`page-item ${currentPage === idx + 1 ? 'active' : ''}`}
+                >
+                  <button className="page-link" onClick={() => setCurrentPage(idx + 1)}>
+                    {idx + 1}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       )}
 

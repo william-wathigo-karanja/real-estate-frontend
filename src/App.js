@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Listings from './pages/Listings';
 import Contact from './pages/Contact';
 import PropertyDetails from './pages/PropertyDetails';
+import About from './pages/About'; // ✅ Only one import here
 
 function App() {
   return (
@@ -58,6 +59,16 @@ function App() {
                 Contact
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  'nav-link' + (isActive ? ' active text-primary fw-semibold' : '')
+                }
+              >
+                About
+              </NavLink>
+            </li>
           </ul>
         </div>
       </nav>
@@ -68,6 +79,7 @@ function App() {
         <Route path="/listings" element={<Listings />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
+        <Route path="/about" element={<About />} /> {/* ✅ Route for Learn More */}
       </Routes>
     </Router>
   );

@@ -1,3 +1,4 @@
+/* Hero Section */
 .hero-section {
   background: linear-gradient(to right, #1e3c72, #2a5298);
   color: white;
@@ -26,6 +27,7 @@
   transition: background 0.3s ease, transform 0.2s;
 }
 
+/* Button Styles */
 .primary-btn {
   background-color: #f59e0b;
   color: white;
@@ -49,6 +51,7 @@
   transform: scale(1.05);
 }
 
+/* Property Card Styles */
 .property-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-radius: 10px;
@@ -60,3 +63,60 @@
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
+
+/* Why Choose Us Section */
+.bg-light {
+  background-color: #f9f9f9 !important;
+}
+
+.bi {
+  font-size: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.bi:hover {
+  transform: scale(1.2);
+}
+
+/* Testimonials / Call-to-Action Section (optional) */
+.testimonials-section {
+  background-color: #f1f5f9;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.testimonial {
+  max-width: 600px;
+  margin: 0 auto 30px;
+  font-style: italic;
+  color: #555;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.testimonial-author {
+  font-weight: bold;
+  color: #333;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+section ul li::before {
+  content: '✔';
+  color: green;
+  margin-right: 10px;
+}
+
