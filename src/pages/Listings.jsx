@@ -55,7 +55,7 @@ const listingsData = [
   // Add more listings as needed
 ];
 
-const ITEMS_PER_PAGE = 3;
+const ITEMS_PER_PAGE = 6; // You can adjust how many per page
 
 const Listings = () => {
   const [filters, setFilters] = useState({
@@ -66,6 +66,7 @@ const Listings = () => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeCategory, setActiveCategory] = useState('');
+  const [sortOrder, setSortOrder] = useState('');
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -84,27 +85,48 @@ const Listings = () => {
     setActiveCategory('');
   };
 
-  const filteredProperties = listingsData.filter((property) => {
-    const matchesPrice =
-      filters.price === '' || property.price <= parseInt(filters.price);
-    const matchesLocation =
-      filters.location === '' ||
-      property.location.toLowerCase() === filters.location.toLowerCase();
-    const matchesType =
-      filters.type === '' ||
-      property.type.toLowerCase() === filters.type.toLowerCase();
-    return matchesPrice && matchesLocation && matchesType;
-  });
+  const handleSortChange = (e) => {
+    setSortOrder(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const filteredProperties = listingsData
+    .filter((property) => {
+      const matchesPrice =
+        filters.price === '' || property.price <= parseInt(filters.price);
+      const matchesLocation =
+        filters.location === '' ||
+        property.location.toLowerCase() === filters.location.toLowerCase();
+      const matchesType =
+        filters.type === '' ||
+        property.type.toLowerCase() === filters.type.toLowerCase();
+      return matchesPrice && matchesLocation && matchesType;
+    })
+    .sort((a, b) => {
+      if (sortOrder === 'price-asc') {
+        return a.price - b.price;
+      } else if (sortOrder === 'price-desc') {
+        return b.price - a.price;
+      } else {
+        return 0;
+      }
+    });
 
   const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const displayedProperties = filteredProperties.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const displayedProperties = filteredProperties.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
 
   return (
     <div className="App">
       <h2 className="section-header">Available Listings</h2>
 
-      <button className="btn btn-primary mb-3" onClick={() => setPanelOpen(!panelOpen)}>
+      <button
+        className="btn btn-primary mb-3"
+        onClick={() => setPanelOpen(!panelOpen)}
+      >
         {panelOpen ? 'Hide Filters' : 'Show Filters'}
       </button>
 
@@ -146,19 +168,37 @@ const Listings = () => {
         </div>
       </div>
 
+      {/* Sort by Dropdown */}
+      <div className="d-flex justify-content-end mb-3">
+        <select
+          className="form-select w-auto"
+          value={sortOrder}
+          onChange={handleSortChange}
+        >
+          <option value="">Sort By</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+      </div>
+
       {/* Category tags */}
       <div className="my-3">
         {['Apartment', 'House', 'Villa'].map((cat) => (
           <button
             key={cat}
-            className={`btn btn-outline-secondary btn-sm me-2 ${activeCategory === cat ? 'active' : ''}`}
+            className={`btn btn-outline-secondary btn-sm me-2 ${
+              activeCategory === cat ? 'active' : ''
+            }`}
             onClick={() => handleCategoryClick(cat)}
           >
             {cat}
           </button>
         ))}
         {activeCategory && (
-          <button className="btn btn-link text-danger btn-sm" onClick={clearCategory}>
+          <button
+            className="btn btn-link text-danger btn-sm"
+            onClick={clearCategory}
+          >
             Clear
           </button>
         )}
@@ -167,9 +207,13 @@ const Listings = () => {
       <div className="row mt-4">
         {displayedProperties.length > 0 ? (
           displayedProperties.map((property) => (
-            <div className="col-md-4 mb-4" key={property.id}>
+            <div className="col-md-3 col-sm-6 mb-4" key={property.id}>
               <div className="card property-card shadow-sm h-100">
-                <img src={property.image} className="card-img-top" alt={property.title} />
+                <img
+                  src={property.image}
+                  className="card-img-top"
+                  alt={property.title}
+                />
                 <div className="card-body">
                   <h5 className="card-title">{property.title}</h5>
                   <p className="card-text">
@@ -177,9 +221,13 @@ const Listings = () => {
                     <br />
                     <strong>Type:</strong> {property.type}
                     <br />
-                    <strong>Price:</strong> KES {property.price.toLocaleString()}
+                    <strong>Price:</strong> KES{' '}
+                    {property.price.toLocaleString()}
                   </p>
-                  <Link to={`/property/${property.id}`} className="btn btn-primary btn-sm">
+                  <Link
+                    to={`/property/${property.id}`}
+                    className="btn btn-primary btn-sm"
+                  >
                     View Details
                   </Link>
                 </div>
@@ -199,9 +247,14 @@ const Listings = () => {
               {Array.from({ length: totalPages }).map((_, idx) => (
                 <li
                   key={idx}
-                  className={`page-item ${currentPage === idx + 1 ? 'active' : ''}`}
+                  className={`page-item ${
+                    currentPage === idx + 1 ? 'active' : ''
+                  }`}
                 >
-                  <button className="page-link" onClick={() => setCurrentPage(idx + 1)}>
+                  <button
+                    className="page-link"
+                    onClick={() => setCurrentPage(idx + 1)}
+                  >
                     {idx + 1}
                   </button>
                 </li>
